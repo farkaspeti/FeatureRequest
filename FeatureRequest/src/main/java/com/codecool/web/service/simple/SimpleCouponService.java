@@ -11,20 +11,20 @@ import java.sql.SQLException;
 import java.util.List;
 
 public final class SimpleCouponService implements CouponService {
-
+    
     private final CouponDao couponDao;
     private final ShopDao shopDao;
-
+    
     public SimpleCouponService(CouponDao couponDao, ShopDao shopDao) {
         this.couponDao = couponDao;
         this.shopDao = shopDao;
     }
-
+    
     @Override
     public List<Coupon> getCoupons() throws SQLException {
         return couponDao.findAll();
     }
-
+    
     @Override
     public Coupon getCoupon(String id) throws SQLException, ServiceException {
         try {
@@ -35,18 +35,18 @@ public final class SimpleCouponService implements CouponService {
             throw new ServiceException(ex.getMessage());
         }
     }
-
+    
     @Override
-    public Coupon addCoupon(String name, String percentage) throws SQLException, ServiceException {
+    public Coupon addCoupon(String name, String percentage, String userId) throws SQLException, ServiceException {
         try {
-            return couponDao.add(name, Integer.parseInt(percentage));
+            return couponDao.add(name, Integer.parseInt(percentage), Integer.parseInt(userId));
         } catch (NumberFormatException ex) {
             throw new ServiceException("Percentage must be an integer");
         } catch (IllegalArgumentException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
-
+    
     @Override
     public void addCouponToShops(String couponId, String... shopIds) throws SQLException, ServiceException {
         if (shopIds == null || shopIds.length == 0) {
@@ -60,7 +60,7 @@ public final class SimpleCouponService implements CouponService {
             throw new ServiceException(ex.getMessage());
         }
     }
-
+    
     @Override
     public List<Shop> getCouponShops(String couponId) throws SQLException, ServiceException {
         try {
@@ -71,7 +71,18 @@ public final class SimpleCouponService implements CouponService {
             throw new ServiceException(ex.getMessage());
         }
     }
-
+    
+    @Override
+    public List<Coupon> getByUserId(String userId) throws SQLException, ServiceException {
+        try {
+            return couponDao.findByUserId(Integer.parseInt(userId));
+        } catch (NumberFormatException ex) {
+            throw new ServiceException("UserId must be an integer");
+        } catch (IllegalArgumentException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+    
     private int[] parseShopIds(String[] shopIds) throws ServiceException {
         try {
             int[] ids = new int[shopIds.length];
