@@ -24,7 +24,8 @@ CREATE TABLE coupons (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     percentage INTEGER NOT NULL,
-    userId INTEGER,
+    user_id INTEGER,
+    FOREIGN KEY (user_id) references users(id),
     CONSTRAINT name_not_empty CHECK (name <> ''),
 	CONSTRAINT percentage_between_bounds CHECK (percentage >= 0 AND percentage <= 100)
 );
