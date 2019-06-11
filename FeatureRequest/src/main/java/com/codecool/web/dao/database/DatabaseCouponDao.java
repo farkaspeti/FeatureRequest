@@ -85,7 +85,22 @@ public final class DatabaseCouponDao extends AbstractDao implements CouponDao {
             connection.setAutoCommit(autoCommit);
         }
     }
-
+    
+    @Override
+    public List<Coupon> findAllByUserId() throws SQLException {
+        List<Coupon> userCouponList = new ArrayList<>();
+        String sql = "SELECT id, name, percentage, userId FROM coupons WHERE userId = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    userCouponList.add(fetchCoupon(resultSet));
+                }
+            }
+        }
+        return userCouponList;
+    }
+    
     private Coupon fetchCoupon(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("name");
