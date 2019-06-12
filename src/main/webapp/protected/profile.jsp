@@ -19,19 +19,17 @@
 <table>
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>%</th>
-        <th>userId</th>
+        <th>| ID |</th>
+        <th>Name |</th>
+        <th>Discount |</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="record" items="${coupons}">
+    <c:forEach var="item" items="${coupons}">
         <tr>
-            <td>${record.id}</td>
-            <td>${record.name}</td>
-            <td>${record.percentage}</td>
-            <td>${record.userId}</td>
+            <td>| ${item.id} |</td>
+            <td>${item.name} |</td>
+            <td>${item.percentage} %|</td>
         </tr>
     </c:forEach>
     </tbody>

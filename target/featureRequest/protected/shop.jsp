@@ -16,7 +16,7 @@
 
 <ul>
     <c:forEach var="coupon" items="${couponList}">
-        <li>${coupon.id} - ${coupon.name} - ${coupon.percentage}</li>
+        <li>${coupon.id} - ${coupon.name} with ${coupon.percentage}% discount</li>
     </c:forEach>
 </ul>
 
