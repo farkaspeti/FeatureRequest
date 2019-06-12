@@ -21,13 +21,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/protected/profile")
-public final class ProfileServlet extends HttpServlet {
+public final class ProfileServlet extends AbstractServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute("user");
+        
     
         try (Connection connection = getConnection(req.getServletContext())) {
+            User user = (User) req.getSession().getAttribute("user");
             CouponDao couponDao = new DatabaseCouponDao(connection);
             ShopDao shopDao = new DatabaseShopDao(connection);
             CouponService couponService = new SimpleCouponService(couponDao, shopDao);

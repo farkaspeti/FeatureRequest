@@ -83,6 +83,17 @@ public final class SimpleCouponService implements CouponService {
         }
     }
     
+    @Override
+    public List<Coupon> getByUserIdAndShopId(String userId, String shopId) throws SQLException, ServiceException {
+        try {
+            return couponDao.findByUserIdAndShopId(Integer.parseInt(userId),Integer.parseInt(shopId));
+        } catch (NumberFormatException ex) {
+            throw  new ServiceException("UserId and shopId must be an integer");
+        } catch (IllegalArgumentException ex) {
+            throw  new ServiceException(ex.getMessage());
+        }
+    }
+    
     private int[] parseShopIds(String[] shopIds) throws ServiceException {
         try {
             int[] ids = new int[shopIds.length];
